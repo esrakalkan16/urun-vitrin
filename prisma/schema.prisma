@@ -8,25 +8,34 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model Category {
-  id        String    @id @default(cuid())
-  name      String    @unique
-  products  Product[]
-  createdAt DateTime  @default(now())
-}
-
 model Product {
-  id          String         @id @default(cuid())
+  id          String           @id @default(cuid())
   title       String
   description String?
-  price       Decimal        @db.Decimal(10, 2)
-  stock       Int            @default(1)
-  isActive    Boolean        @default(true)
-  categoryId  String?
-  category    Category?      @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  price       Decimal          @db.Decimal(10, 2)
+  isActive    Boolean          @default(true)
   images      ProductImage[]
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  variants    ProductVariant[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+}
+
+model Category {
+  id        String           @id @default(cuid())
+  name      String           @unique
+  variants  ProductVariant[]
+  createdAt DateTime         @default(now())
+}
+
+model ProductVariant {
+  id         String   @id @default(cuid())
+  quantity   Int
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+
+  @@unique([productId, categoryId])
 }
 
 model ProductImage {
