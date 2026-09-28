@@ -1,10 +1,16 @@
 import { put } from '@vercel/blob';
 import { NextResponse } from 'next/server';
+import { checkAuth } from '@/lib/auth';
 
 const MAX_SIZE_MB = 5;
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 
 export async function POST(request: Request) {
+  const isAuth = await checkAuth();
+  if (!isAuth) {
+    return NextResponse.json({ error: 'Yetkisiz erişim' }, { status: 401 });
+  }
+
   const formData = await request.formData();
   const file = formData.get('file') as File | null;
 

@@ -46,3 +46,15 @@ model ProductImage {
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
 }
+
+model SiteSetting {
+  id            String   @id @default("default")
+  adminEmail    String   @default("admin@vitrin.com")
+  // adminPassword hash'lenmiş tutulur. İlk değer seed/migration ile set edilir.
+  adminPassword String
+  phone         String   @default("0555 555 55 55")
+  whatsapp      String   @default("905555555555")
+  email         String   @default("info@vitrin.com")
+  address       String   @default("İstanbul, Türkiye")
+  updatedAt     DateTime @updatedAt
+}
