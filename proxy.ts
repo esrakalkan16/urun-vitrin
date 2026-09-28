@@ -10,7 +10,7 @@ export async function proxy(request: NextRequest) {
 
   if (pathname === '/admin/giris') {
     // Zaten giriş yapmışsa doğrudan panele gönder
-    return session ? NextResponse.redirect(new URL('/admin/urunler', request.url)) : NextResponse.next();
+    return session ? NextResponse.redirect(new URL('/admin', request.url)) : NextResponse.next();
   }
 
   if (!session) {

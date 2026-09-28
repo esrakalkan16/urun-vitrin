@@ -79,14 +79,14 @@ export default function UrunDuzenlePage() {
 
       {state.status === 'loading' && (
         <div className="space-y-6" aria-hidden="true">
-          <div className="skeleton h-72 rounded-xl" />
-          <div className="skeleton h-48 rounded-xl" />
+          <div className="skeleton h-72" />
+          <div className="skeleton h-48" />
         </div>
       )}
 
       {state.status === 'error' && (
         <div className="card px-6 py-16 text-center">
-          <p className="font-display text-xl font-semibold text-ink">Ürün bulunamadı</p>
+          <p className="font-display text-xl font-light text-ink">Ürün bulunamadı</p>
           <Link href="/admin/urunler" className="btn btn-secondary mt-6">
             Ürünlere dön
           </Link>
@@ -99,7 +99,7 @@ export default function UrunDuzenlePage() {
 
           <section className="card mt-10 flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between md:p-7">
             <div>
-              <h2 className="text-base font-medium text-ink">Satış durumu</h2>
+              <h2 className="text-[11px] font-medium tracking-[0.16em] text-ink uppercase">Satış durumu</h2>
               <p className="mt-1 text-sm text-muted">
                 {state.isActive
                   ? 'Ürün vitrinde. Satıldıysa işaretleyin; vitrinden kalkar ve Satılanlar’a taşınır.'

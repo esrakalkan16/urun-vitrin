@@ -129,7 +129,7 @@ export function ProductForm({
     <form onSubmit={handleSubmit} className="space-y-6" noValidate>
       {/* Temel bilgiler */}
       <section className="card space-y-5 p-5 md:p-7">
-        <h2 className="text-base font-medium text-ink">Ürün bilgileri</h2>
+        <h2 className="text-[11px] font-medium tracking-[0.16em] text-ink uppercase">Ürün bilgileri</h2>
         <div>
           <label htmlFor="title" className="label">
             Ürün adı
@@ -180,7 +180,7 @@ export function ProductForm({
       {/* Görseller */}
       <section className="card p-5 md:p-7">
         <div className="flex items-baseline justify-between">
-          <h2 className="text-base font-medium text-ink">Fotoğraflar</h2>
+          <h2 className="text-[11px] font-medium tracking-[0.16em] text-ink uppercase">Fotoğraflar</h2>
           <span className="text-sm text-muted">{images.length} fotoğraf</span>
         </div>
         <p className="hint mt-1">Kapak fotoğrafı vitrinde ilk görünen fotoğraftır. Değiştirmek için fotoğrafa dokunun.</p>
@@ -193,13 +193,13 @@ export function ProductForm({
                 onClick={() => setCover(i)}
                 aria-label={img.isCover ? 'Kapak fotoğrafı' : `Fotoğraf ${i + 1}: kapak yap`}
                 aria-pressed={img.isCover}
-                className={`relative block aspect-square w-full overflow-hidden rounded-lg bg-subtle ${
+                className={`relative block aspect-square w-full overflow-hidden bg-subtle ${
                   img.isCover ? 'ring-2 ring-ink ring-offset-2 ring-offset-canvas' : ''
                 }`}
               >
                 <Image src={img.url} alt="" fill sizes="160px" className="object-cover" />
                 <span
-                  className={`absolute inset-x-1.5 bottom-1.5 rounded-md py-1 text-center text-[11px] font-medium ${
+                  className={`absolute inset-x-1.5 bottom-1.5 py-1 text-center text-[11px] font-medium ${
                     img.isCover ? 'is-selected' : 'bg-white/90 text-ink-soft backdrop-blur'
                   }`}
                 >
@@ -221,7 +221,7 @@ export function ProductForm({
             type="button"
             onClick={() => fileRef.current?.click()}
             disabled={uploading}
-            className="flex aspect-square flex-col items-center justify-center gap-1.5 rounded-lg border-2 border-dashed border-line-strong text-sm text-muted transition-colors hover:border-ink-soft hover:text-ink disabled:opacity-60"
+            className="flex aspect-square flex-col items-center justify-center gap-1.5 border-2 border-dashed border-line-strong text-sm text-muted transition-colors hover:border-ink-soft hover:text-ink disabled:opacity-60"
           >
             {uploading ? (
               'Yükleniyor…'
@@ -245,7 +245,7 @@ export function ProductForm({
 
       {/* Yaş grupları ve stok */}
       <section className="card p-5 md:p-7">
-        <h2 className="text-base font-medium text-ink">Yaş grupları ve stok</h2>
+        <h2 className="text-[11px] font-medium tracking-[0.16em] text-ink uppercase">Yaş grupları ve stok</h2>
         <p className="hint mt-1">Ürünün bulunduğu yaş gruplarını seçip her biri için adet girin.</p>
 
         {categories === null ? (
@@ -254,7 +254,7 @@ export function ProductForm({
             <div className="skeleton h-12" />
           </div>
         ) : categories.length === 0 ? (
-          <p className="mt-4 rounded-lg bg-subtle px-4 py-3 text-sm text-ink-soft">
+          <p className="mt-4 bg-subtle px-4 py-3 text-sm text-ink-soft">
             Henüz yaş grubu yok.{' '}
             <Link href="/admin/kategoriler" className="font-medium text-ink underline underline-offset-4">
               Kategoriler
@@ -262,7 +262,7 @@ export function ProductForm({
             sayfasından ekleyin.
           </p>
         ) : (
-          <ul className="mt-4 divide-y divide-line rounded-lg border border-line">
+          <ul className="mt-4 divide-y divide-line border border-line">
             {categories.map((cat) => {
               const selected = stock[cat.id] !== undefined;
               const qty = stock[cat.id] ?? 0;
@@ -279,13 +279,13 @@ export function ProductForm({
                   </label>
 
                   {selected && (
-                    <div className="flex items-center rounded-full border border-line-strong">
+                    <div className="flex items-center border border-line-strong">
                       <button
                         type="button"
                         onClick={() => setQty(cat.id, qty - 1)}
                         disabled={qty <= 0}
                         aria-label={`${cat.name}: adet azalt`}
-                        className="flex h-9 w-9 items-center justify-center rounded-full text-ink-soft hover:bg-subtle disabled:opacity-40"
+                        className="flex h-9 w-9 items-center justify-center text-ink-soft hover:bg-subtle disabled:opacity-40"
                       >
                         <IconMinus className="h-4 w-4" />
                       </button>
@@ -301,7 +301,7 @@ export function ProductForm({
                         type="button"
                         onClick={() => setQty(cat.id, qty + 1)}
                         aria-label={`${cat.name}: adet artır`}
-                        className="flex h-9 w-9 items-center justify-center rounded-full text-ink-soft hover:bg-subtle"
+                        className="flex h-9 w-9 items-center justify-center text-ink-soft hover:bg-subtle"
                       >
                         <IconPlus className="h-4 w-4" />
                       </button>
@@ -315,7 +315,7 @@ export function ProductForm({
       </section>
 
       {/* Kaydet çubuğu */}
-      <div className="sticky bottom-0 z-30 -mx-4 glass border-t border-line px-4 py-3 md:mx-0 md:rounded-2xl md:border md:px-5">
+      <div className="sticky bottom-0 z-30 -mx-4 glass border-t border-line px-4 py-3 md:mx-0 md: md:border md:px-5">
         {error && (
           <p role="alert" className="mb-3 text-sm text-danger">
             {error}

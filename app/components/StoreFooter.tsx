@@ -73,7 +73,7 @@ export function StoreFooter() {
 
       <div className="border-t border-line">
         <p className="container-page py-5 text-[11px] tracking-[0.12em] text-muted uppercase">
-          © {new Date().getFullYear()} L&rsquo;Atelier Enfant
+          © {new Date().getFullYear()} <span lang="fr">L&rsquo;Atelier Enfant</span>
         </p>
       </div>
     </footer>
