@@ -7,6 +7,7 @@ import { useParams } from 'next/navigation';
 import { StoreHeader } from '@/app/components/StoreHeader';
 import { StoreFooter } from '@/app/components/StoreFooter';
 import { ProductCard } from '@/app/components/ProductCard';
+import { Reveal } from '@/app/components/Reveal';
 import { useStoreSettings } from '@/app/components/useStoreSettings';
 import { IconArrowLeft, IconChat, IconImage } from '@/app/components/icons';
 import { buildWhatsAppLink } from '@/lib/whatsapp';
@@ -62,7 +63,7 @@ export default function UrunDetayPage() {
 
         {state.status === 'notfound' && (
           <div className="container-page py-24 text-center">
-            <p className="font-serif text-3xl text-ink">Bu ürünü bulamadık</p>
+            <p className="font-display text-3xl font-light text-ink">Bu ürünü bulamadık</p>
             <p className="mt-2 text-sm text-muted">Satılmış ya da kaldırılmış olabilir.</p>
             <Link href="/" className="btn btn-primary mt-6">
               Koleksiyona dön
@@ -102,7 +103,7 @@ export default function UrunDetayPage() {
                 <div className="container-page mt-6 grid gap-8 lg:grid-cols-2 lg:gap-16">
                   {/* Galeri */}
                   <div>
-                    <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-subtle">
+                    <div className="animate-fade-up relative aspect-[4/5] overflow-hidden bg-subtle">
                       {image ? (
                         <Image
                           src={image.url}
@@ -130,7 +131,7 @@ export default function UrunDetayPage() {
                               onClick={() => setImageId(img.id)}
                               aria-label={`Görsel ${i + 1}`}
                               aria-pressed={active}
-                              className={`relative h-20 w-16 shrink-0 overflow-hidden rounded-lg transition ${
+                              className={`relative h-20 w-16 shrink-0 overflow-hidden transition ${
                                 active ? 'ring-2 ring-ink ring-offset-2 ring-offset-canvas' : 'opacity-70 hover:opacity-100'
                               }`}
                             >
@@ -144,11 +145,11 @@ export default function UrunDetayPage() {
 
                   {/* Bilgiler */}
                   <div className="lg:sticky lg:top-24 lg:self-start">
-                    <h1 className="font-serif text-3xl leading-tight text-ink md:text-4xl">{product.title}</h1>
-                    <p className="mt-3 text-2xl font-medium text-ink">{formatPrice(product.price)}</p>
+                    <h1 className="font-display animate-fade-up text-3xl leading-[1.1] font-light md:text-[42px]">{product.title}</h1>
+                    <p className="mt-4 text-xl font-medium text-ink">{formatPrice(product.price)}</p>
 
                     {soldOut && (
-                      <p className="mt-6 rounded-xl bg-subtle px-4 py-3 text-sm text-ink-soft">
+                      <p className="mt-6 bg-subtle px-4 py-3 text-sm text-ink-soft">
                         Bu ürün tükendi. Benzer parçalar için koleksiyona göz atabilirsiniz.
                       </p>
                     )}
@@ -156,7 +157,7 @@ export default function UrunDetayPage() {
                     {!soldOut && product.variants.length > 0 && (
                       <fieldset className="mt-8">
                         <legend className="flex w-full items-baseline justify-between text-sm">
-                          <span className="font-medium text-ink">Yaş grubu</span>
+                          <span className="text-[11px] font-medium tracking-[0.16em] text-ink uppercase">Yaş grubu</span>
                           {variant && (
                             <span className={variant.quantity <= 2 ? 'text-accent' : 'text-muted'}>
                               {variant.quantity <= 2 ? `Son ${variant.quantity} adet` : `Stokta ${variant.quantity} adet`}
@@ -175,18 +176,18 @@ export default function UrunDetayPage() {
                                 onClick={() => setVariantId(v.id)}
                                 aria-pressed={active}
                                 aria-label={`${v.category.name}, ${out ? 'tükendi' : `${v.quantity} adet stokta`}`}
-                                className={`flex min-h-14 min-w-24 flex-col items-center justify-center rounded-lg border px-4 py-2 text-sm transition-colors ${
+                                className={`flex min-h-14 min-w-24 flex-col items-center justify-center border px-4 py-2 text-sm transition-colors duration-300 ${
                                   out
                                     ? 'cursor-not-allowed border-line text-muted/60 line-through'
                                     : active
-                                      ? 'border-ink bg-ink text-white'
-                                      : 'border-line-strong bg-surface text-ink hover:border-ink'
+                                      ? 'is-selected'
+                                      : 'border-line-strong bg-white text-ink hover:border-ink'
                                 }`}
                               >
                                 <span>{v.category.name}</span>
                                 <span
                                   className={`mt-0.5 text-xs no-underline ${
-                                    out ? 'text-muted/60' : active ? 'text-white/75' : v.quantity <= 2 ? 'text-accent' : 'text-muted'
+                                    out ? 'text-muted/60' : active ? 'text-white/85' : v.quantity <= 2 ? 'text-accent' : 'text-muted'
                                   }`}
                                 >
                                   {out ? 'Tükendi' : `${v.quantity} adet`}
@@ -239,7 +240,7 @@ export default function UrunDetayPage() {
                 {related.length > 0 && (
                   <section aria-labelledby="diger" className="container-page mt-20">
                     <div className="flex items-end justify-between gap-4 border-t border-line pt-12">
-                      <h2 id="diger" className="font-serif text-2xl text-ink md:text-3xl">
+                      <h2 id="diger" className="font-display text-3xl font-light md:text-4xl">
                         Bunlar da hoşunuza gidebilir
                       </h2>
                       <Link href="/" className="shrink-0 text-sm whitespace-nowrap text-ink-soft underline-offset-4 hover:underline">
@@ -247,8 +248,10 @@ export default function UrunDetayPage() {
                       </Link>
                     </div>
                     <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-8 md:gap-x-6 lg:grid-cols-4">
-                      {related.map((p) => (
-                        <ProductCard key={p.id} product={p} />
+                      {related.map((p, i) => (
+                        <Reveal key={p.id} delay={i * 80}>
+                          <ProductCard product={p} />
+                        </Reveal>
                       ))}
                     </div>
                   </section>
@@ -256,7 +259,7 @@ export default function UrunDetayPage() {
 
                 {/* Mobil sabit sipariş çubuğu */}
                 {!soldOut && waLink && (
-                  <div className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/95 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-md lg:hidden">
+                  <div className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white/95 backdrop-blur px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] lg:hidden">
                     <div className="flex items-center gap-3">
                       <div className="min-w-0">
                         <p className="text-base font-semibold text-ink">{formatPrice(product.price)}</p>
@@ -285,13 +288,13 @@ export default function UrunDetayPage() {
 
 function DetailSkeleton() {
   return (
-    <div className="container-page grid gap-8 pt-14 lg:grid-cols-2 lg:gap-16" aria-hidden="true">
-      <div className="skeleton aspect-[4/5] rounded-2xl" />
+    <div className="container-page grid gap-8 pt-10 lg:grid-cols-2 lg:gap-16" aria-hidden="true">
+      <div className="skeleton aspect-[4/5]" />
       <div className="space-y-4">
         <div className="skeleton h-9 w-3/4" />
         <div className="skeleton h-7 w-1/4" />
         <div className="skeleton mt-8 h-11 w-2/3" />
-        <div className="skeleton h-13 w-full rounded-full" />
+        <div className="skeleton h-13 w-full" />
       </div>
     </div>
   );

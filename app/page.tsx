@@ -2,11 +2,20 @@ import { Suspense } from 'react';
 import { StoreHeader } from './components/StoreHeader';
 import { StoreFooter } from './components/StoreFooter';
 import ProductGrid, { ProductGridSkeleton } from './components/ProductGrid';
+import { Hero } from './components/Hero';
+import { CategoryTiles } from './components/CategoryTiles';
+import { Reveal } from './components/Reveal';
+
+const promises = [
+  { title: 'Doğal kumaşlar', text: 'Organik pamuk, keten ve yumuşak trikolar' },
+  { title: 'Kolay sipariş', text: 'WhatsApp’tan tek mesajla bedeninizi ayırın' },
+  { title: 'Anlık stok', text: 'Her üründe yaş grubuna göre kalan adet' },
+];
 
 const steps = [
-  { title: 'Beğendiğiniz ürünü seçin', text: 'Ürün sayfasında çocuğunuza uygun yaş grubunu işaretleyin.' },
-  { title: 'WhatsApp’tan yazın', text: 'Mesajınız ürün adı ve yaş grubuyla hazır gelir, göndermeniz yeterli.' },
-  { title: 'Birlikte netleştirelim', text: 'Stok, ödeme ve teslimatı sizinle birebir konuşup ürünü ayırıyoruz.' },
+  { title: 'Ürünü seçin', text: 'Ürün sayfasında çocuğunuza uygun yaş grubunu ve kalan adedi görün.' },
+  { title: 'WhatsApp’tan yazın', text: 'Mesajınız ürün adı ve yaş grubuyla hazır açılır, göndermeniz yeterli.' },
+  { title: 'Birlikte netleştirelim', text: 'Ödeme ve teslimatı sizinle birebir konuşup ürünü hemen ayırıyoruz.' },
 ];
 
 export default function HomePage() {
@@ -14,42 +23,53 @@ export default function HomePage() {
     <div className="flex min-h-screen flex-col">
       <StoreHeader />
 
-      <main className="flex-1 pb-16 md:pb-24">
-        {/* Giriş */}
-        <section className="container-page pt-12 pb-10 md:pt-20 md:pb-14">
-          <p className="text-xs font-medium tracking-[0.18em] text-muted uppercase">Butik çocuk gardırobu</p>
-          <h1 className="mt-4 max-w-3xl font-serif text-4xl leading-[1.08] text-ink md:text-6xl">
-            Yumuşak dokular, <em className="text-accent">özenli</em> seçimler.
-          </h1>
-          <p className="mt-5 max-w-xl text-base leading-relaxed text-ink-soft">
-            Organik pamuk, keten ve trikodan parçalar. Beğendiğiniz ürünü WhatsApp üzerinden sorun, bedeninizi
-            hemen ayıralım.
-          </p>
+      <main className="flex-1">
+        <Hero />
+
+        {/* Söz şeridi */}
+        <section aria-label="Neden L'Atelier Enfant" className="border-b border-line">
+          <ul className="container-page grid divide-y divide-line md:grid-cols-3 md:divide-x md:divide-y-0">
+            {promises.map((p) => (
+              <li key={p.title} className="px-2 py-5 text-center md:py-7">
+                <p className="text-[11px] font-medium tracking-[0.16em] uppercase">{p.title}</p>
+                <p className="mt-1 text-sm font-light text-muted">{p.text}</p>
+              </li>
+            ))}
+          </ul>
         </section>
 
-        <Suspense
-          fallback={
-            <div className="container-page border-t border-line py-10">
-              <ProductGridSkeleton />
-            </div>
-          }
-        >
-          <ProductGrid />
-        </Suspense>
+        <CategoryTiles />
+
+        <section id="koleksiyon" className="scroll-mt-20">
+          <Suspense
+            fallback={
+              <div className="container-page pt-24">
+                <ProductGridSkeleton />
+              </div>
+            }
+          >
+            <ProductGrid />
+          </Suspense>
+        </section>
 
         {/* Nasıl sipariş verilir */}
-        <section aria-labelledby="nasil" className="container-page pt-8 pb-4 md:pt-12">
-          <div className="rounded-2xl bg-subtle px-6 py-10 md:px-12 md:py-12">
-            <h2 id="nasil" className="font-serif text-2xl text-ink md:text-3xl">
-              Nasıl sipariş verilir?
-            </h2>
-            <ol className="mt-8 grid gap-8 md:grid-cols-3 md:gap-10">
+        <section id="siparis" aria-labelledby="nasil" className="mt-20 scroll-mt-20 bg-mint md:mt-28">
+          <div className="container-page py-16 md:py-24">
+            <Reveal className="text-center">
+              <p className="eyebrow text-ink-soft">Sipariş</p>
+              <h2 id="nasil" className="font-display mt-2 text-3xl font-light md:text-4xl">
+                Nasıl sipariş verilir?
+              </h2>
+            </Reveal>
+            <ol className="mt-12 grid gap-10 md:grid-cols-3 md:gap-8">
               {steps.map((s, i) => (
-                <li key={s.title}>
-                  <span className="font-serif text-3xl text-accent">{i + 1}</span>
-                  <p className="mt-2 font-medium text-ink">{s.title}</p>
-                  <p className="mt-1 text-sm leading-relaxed text-ink-soft">{s.text}</p>
-                </li>
+                <Reveal as="li" key={s.title} delay={i * 100} className="text-center">
+                  <span className="font-display mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-white text-xl font-light">
+                    {i + 1}
+                  </span>
+                  <p className="mt-5 text-[11px] font-medium tracking-[0.16em] uppercase">{s.title}</p>
+                  <p className="mx-auto mt-2 max-w-xs text-sm leading-relaxed font-light text-ink-soft">{s.text}</p>
+                </Reveal>
               ))}
             </ol>
           </div>

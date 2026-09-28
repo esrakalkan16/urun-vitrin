@@ -81,8 +81,8 @@ export default function AdminAyarlarPage() {
 
       {loading ? (
         <div className="space-y-4" aria-hidden="true">
-          <div className="skeleton h-64 rounded-xl" />
-          <div className="skeleton h-48 rounded-xl" />
+          <div className="skeleton h-64" />
+          <div className="skeleton h-48" />
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -184,7 +184,7 @@ export default function AdminAyarlarPage() {
           </Section>
 
           {error && (
-            <p role="alert" className="rounded-lg bg-danger-soft px-4 py-3 text-sm text-danger">
+            <p role="alert" className=" bg-danger-soft px-4 py-3 text-sm text-danger">
               {error}
             </p>
           )}

@@ -143,7 +143,7 @@ export default function AdminUrunlerPage() {
                 return (
                   <li key={product.id} className="flex flex-col gap-4 p-4 md:flex-row md:items-center md:gap-6">
                     <Link href={`/admin/urunler/${product.id}`} className="group flex min-w-0 items-center gap-3 md:w-72 md:shrink-0">
-                      <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-subtle">
+                      <div className="relative h-14 w-14 shrink-0 overflow-hidden bg-subtle">
                         {cover && <Image src={cover.url} alt="" fill sizes="56px" className="object-cover" />}
                       </div>
                       <div className="min-w-0">
@@ -159,7 +159,7 @@ export default function AdminUrunlerPage() {
                           return (
                             <span
                               key={v.id}
-                              className="inline-flex h-9 items-center gap-2 rounded-full border border-dashed border-line px-3 text-sm text-muted/70"
+                              className="inline-flex h-9 items-center gap-2 border border-dashed border-line px-3 text-sm text-muted/70"
                             >
                               {v.category.name}
                               <span className="text-xs">tükendi</span>
@@ -173,13 +173,13 @@ export default function AdminUrunlerPage() {
                             onConfirm={() => sellOne(product, v.id, v.category.name)}
                             aria-label={`${v.category.name}: ${v.quantity} adet. 1 adet satış düşmek için tıklayın`}
                             title="1 adet satış düş"
-                            className="inline-flex h-9 items-center gap-2 rounded-full border border-line bg-surface pr-1.5 pl-3 text-sm text-ink transition-colors hover:border-ink-soft disabled:opacity-50"
-                            confirmClassName="inline-flex h-9 items-center rounded-full bg-ink px-3.5 text-sm font-medium text-white"
+                            className="inline-flex h-9 items-center gap-2 border border-line bg-surface pr-1.5 pl-3 text-sm text-ink transition-colors hover:border-ink-soft disabled:opacity-50"
+                            confirmClassName="is-selected inline-flex h-9 items-center px-3.5 text-sm font-medium"
                             confirmLabel={`${v.category.name}: 1 adet düş`}
                           >
                             {v.category.name}
                             <span
-                              className={`inline-flex h-6 min-w-6 items-center justify-center rounded-full px-1.5 text-xs font-semibold ${
+                              className={`inline-flex h-6 min-w-6 items-center justify-center px-1.5 text-xs font-semibold ${
                                 v.quantity <= 1 ? 'bg-accent-soft text-accent' : 'bg-subtle text-ink-soft'
                               }`}
                             >
