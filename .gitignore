@@ -46,3 +46,6 @@ next-env.d.ts
 skills-lock.json
 AGENTS.md
 CLAUDE.md
+# yerel yedekler / geçici klasörler
+_eski-tasarim-yedek.tar.gz
+_tmp_/
