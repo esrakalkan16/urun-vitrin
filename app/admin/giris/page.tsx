@@ -38,7 +38,7 @@ export default function AdminGirisPage() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-canvas px-4 py-12">
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
-          <p className="font-serif text-3xl text-ink">L&rsquo;Atelier Enfant</p>
+          <p className="font-display text-gradient text-3xl font-semibold">L&rsquo;Atelier Enfant</p>
           <p className="mt-2 text-sm text-muted">Mağaza yönetimine giriş yapın</p>
         </div>
 

@@ -1,12 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { Funnel_Display, Funnel_Sans } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin", "latin-ext"], variable: "--font-inter", display: "swap" });
-const fraunces = Fraunces({
+const funnelSans = Funnel_Sans({ subsets: ["latin", "latin-ext"], variable: "--font-funnel-sans", display: "swap" });
+const funnelDisplay = Funnel_Display({
   subsets: ["latin", "latin-ext"],
-  style: ["normal", "italic"],
-  variable: "--font-fraunces",
+  variable: "--font-funnel-display",
   display: "swap",
 });
 
@@ -17,12 +16,12 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#faf7f2",
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="tr" className={`h-full antialiased ${inter.variable} ${fraunces.variable}`}>
+    <html lang="tr" className={`h-full antialiased ${funnelSans.variable} ${funnelDisplay.variable}`}>
       <body className="flex min-h-full flex-col bg-canvas font-sans text-ink">{children}</body>
     </html>
   );

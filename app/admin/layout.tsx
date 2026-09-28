@@ -24,7 +24,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between gap-4 px-4 md:px-8">
           <div className="flex min-w-0 items-center gap-8">
             <Link href="/admin/urunler" className="flex items-baseline gap-2 whitespace-nowrap">
-              <span className="font-serif text-lg text-ink">L&rsquo;Atelier</span>
+              <span className="font-display text-lg font-semibold text-ink">L&rsquo;Atelier</span>
               <span className="text-xs text-muted">Yönetim</span>
             </Link>
 

@@ -174,7 +174,7 @@ export default function AdminUrunlerPage() {
                             aria-label={`${v.category.name}: ${v.quantity} adet. 1 adet satış düşmek için tıklayın`}
                             title="1 adet satış düş"
                             className="inline-flex h-9 items-center gap-2 rounded-full border border-line bg-surface pr-1.5 pl-3 text-sm text-ink transition-colors hover:border-ink-soft disabled:opacity-50"
-                            confirmClassName="inline-flex h-9 items-center rounded-full bg-ink px-3.5 text-sm font-medium text-white"
+                            confirmClassName="is-selected inline-flex h-9 items-center rounded-full px-3.5 text-sm font-medium"
                             confirmLabel={`${v.category.name}: 1 adet düş`}
                           >
                             {v.category.name}

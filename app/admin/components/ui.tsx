@@ -29,7 +29,7 @@ export function PageHeader({
             {back.label}
           </Link>
         )}
-        <h1 className="font-serif text-3xl text-ink">{title}</h1>
+        <h1 className="font-display text-gradient text-3xl font-semibold md:text-4xl">{title}</h1>
         {description && <p className="mt-1.5 text-sm text-muted">{description}</p>}
       </div>
       {actions && <div className="flex shrink-0 flex-wrap gap-2">{actions}</div>}
@@ -84,7 +84,7 @@ export function ToastViewport({ toasts }: { toasts: Toast[] }) {
           key={t.id}
           role={t.tone === 'error' ? 'alert' : 'status'}
           className={`pointer-events-auto max-w-sm rounded-xl px-4 py-3 text-sm shadow-lg ${
-            t.tone === 'success' ? 'bg-ink text-white' : 'bg-danger text-white'
+            t.tone === 'success' ? 'glass text-ink' : 'btn-danger'
           }`}
         >
           {t.message}
@@ -158,7 +158,7 @@ export function EmptyState({
 }) {
   return (
     <div className="card px-6 py-16 text-center">
-      <p className="font-serif text-xl text-ink">{title}</p>
+      <p className="font-display text-xl font-semibold text-ink">{title}</p>
       {text && <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-muted">{text}</p>}
       {action && <div className="mt-6">{action}</div>}
     </div>

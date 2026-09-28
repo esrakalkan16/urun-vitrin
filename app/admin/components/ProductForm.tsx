@@ -194,13 +194,13 @@ export function ProductForm({
                 aria-label={img.isCover ? 'Kapak fotoğrafı' : `Fotoğraf ${i + 1}: kapak yap`}
                 aria-pressed={img.isCover}
                 className={`relative block aspect-square w-full overflow-hidden rounded-lg bg-subtle ${
-                  img.isCover ? 'ring-2 ring-ink ring-offset-2 ring-offset-surface' : ''
+                  img.isCover ? 'ring-2 ring-ink ring-offset-2 ring-offset-canvas' : ''
                 }`}
               >
                 <Image src={img.url} alt="" fill sizes="160px" className="object-cover" />
                 <span
                   className={`absolute inset-x-1.5 bottom-1.5 rounded-md py-1 text-center text-[11px] font-medium ${
-                    img.isCover ? 'bg-ink text-white' : 'bg-surface/90 text-ink-soft'
+                    img.isCover ? 'is-selected' : 'bg-white/90 text-ink-soft backdrop-blur'
                   }`}
                 >
                   {img.isCover ? 'Kapak' : 'Kapak yap'}
@@ -315,7 +315,7 @@ export function ProductForm({
       </section>
 
       {/* Kaydet çubuğu */}
-      <div className="sticky bottom-0 z-30 -mx-4 border-t border-line bg-canvas/95 px-4 py-3 backdrop-blur-md md:mx-0 md:rounded-xl md:border md:px-5">
+      <div className="sticky bottom-0 z-30 -mx-4 glass border-t border-line px-4 py-3 md:mx-0 md:rounded-2xl md:border md:px-5">
         {error && (
           <p role="alert" className="mb-3 text-sm text-danger">
             {error}

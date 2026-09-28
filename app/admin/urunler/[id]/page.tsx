@@ -86,7 +86,7 @@ export default function UrunDuzenlePage() {
 
       {state.status === 'error' && (
         <div className="card px-6 py-16 text-center">
-          <p className="font-serif text-xl text-ink">Ürün bulunamadı</p>
+          <p className="font-display text-xl font-semibold text-ink">Ürün bulunamadı</p>
           <Link href="/admin/urunler" className="btn btn-secondary mt-6">
             Ürünlere dön
           </Link>
