@@ -3,6 +3,9 @@ import { prisma } from '@/lib/prisma';
 import { checkAuth } from '@/lib/auth';
 import { categorySchema } from '@/lib/validations';
 
+// Build sırasında sabitlenmesin; her istekte veritabanından güncel liste gelsin
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   const categories = await prisma.category.findMany({
     orderBy: { createdAt: 'asc' },
