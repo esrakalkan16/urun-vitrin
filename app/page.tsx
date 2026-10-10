@@ -27,7 +27,7 @@ export default function HomePage() {
         <Hero />
 
         {/* Söz şeridi */}
-        <section aria-label="Neden L'Atelier Enfant" className="border-b border-line">
+        <section aria-label="Neden Veliaht" className="border-b border-line">
           <ul className="container-page grid divide-y divide-line md:grid-cols-3 md:divide-x md:divide-y-0">
             {promises.map((p) => (
               <li key={p.title} className="px-2 py-5 text-center md:py-7">
@@ -53,7 +53,7 @@ export default function HomePage() {
         </section>
 
         {/* Nasıl sipariş verilir */}
-        <section id="siparis" aria-labelledby="nasil" className="mt-20 scroll-mt-20 bg-mint md:mt-28">
+        <section id="siparis" aria-labelledby="nasil" className="mt-20 scroll-mt-20 bg-sand md:mt-28">
           <div className="container-page py-16 md:py-24">
             <Reveal className="text-center">
               <p className="eyebrow text-ink-soft">Sipariş</p>
@@ -64,7 +64,7 @@ export default function HomePage() {
             <ol className="mt-12 grid gap-10 md:grid-cols-3 md:gap-8">
               {steps.map((s, i) => (
                 <Reveal as="li" key={s.title} delay={i * 100} className="text-center">
-                  <span className="font-display mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-white text-xl font-light">
+                  <span className="font-display mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-navy text-xl text-cream">
                     {i + 1}
                   </span>
                   <p className="mt-5 text-[11px] font-medium tracking-[0.16em] uppercase">{s.title}</p>

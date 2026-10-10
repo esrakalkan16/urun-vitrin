@@ -42,7 +42,7 @@ export function ProductCard({ product }: { product: Product; index?: number }) {
         )}
 
         {stock > 0 && stock <= 2 && (
-          <span className="absolute top-3 left-3 bg-white px-2.5 py-1 text-[10px] font-medium tracking-[0.12em] text-accent uppercase">
+          <span className="absolute top-3 left-3 bg-white px-2.5 py-1 text-[10px] font-medium tracking-[0.12em] text-clay uppercase">
             Son {stock} adet
           </span>
         )}

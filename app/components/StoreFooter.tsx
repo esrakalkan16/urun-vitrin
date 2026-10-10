@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { buildWhatsAppLink } from '@/lib/whatsapp';
 import { IconChat } from './icons';
+import { Logo } from './Logo';
 import { useStoreSettings } from './useStoreSettings';
 
 export function StoreFooter() {
@@ -11,18 +12,17 @@ export function StoreFooter() {
     ? buildWhatsAppLink(settings.whatsapp || settings.phone, 'Merhaba, bilgi almak istiyorum.')
     : null;
 
-  const heading = 'text-[11px] font-medium tracking-[0.16em] uppercase';
+  const heading = 'text-[11px] font-medium tracking-[0.16em] text-camel uppercase';
 
   return (
-    <footer id="iletisim" className="mt-auto scroll-mt-20 bg-subtle">
+    <footer id="iletisim" className="mt-auto scroll-mt-24 bg-navy text-cream">
       <div className="container-page grid gap-10 py-14 md:grid-cols-[1.4fr_1fr_1fr] md:py-20">
         <div>
-          <Link href="/" className="inline-block">
-            <span lang="fr" className="font-display block text-2xl font-medium tracking-[0.2em] uppercase">L&rsquo;Atelier</span>
-            <span className="block text-[10px] tracking-[0.5em] text-muted uppercase">Enfant</span>
+          <Link href="/" className="inline-block" aria-label="Veliaht Kids — Ana sayfa">
+            <Logo tone="dark" size="lg" tagline="Küçük beyefendiler için" />
           </Link>
-          <p className="mt-5 max-w-xs text-sm leading-relaxed font-light text-ink-soft">
-            Miniklerin dünyasına biraz daha yumuşaklık katmak için doğal liflerden, özenle seçilmiş kıyafetler.
+          <p className="mt-6 max-w-xs text-sm leading-relaxed font-light text-cream/70">
+            Küçük beyefendiler için doğal kumaşlardan, zamansız kesimlerle özenle seçilmiş erkek çocuk kıyafetleri.
           </p>
         </div>
 
@@ -30,22 +30,22 @@ export function StoreFooter() {
           <h2 className={heading}>İletişim</h2>
           {settings === undefined ? (
             <div className="mt-5 space-y-2.5" aria-hidden="true">
-              <div className="skeleton h-4 w-40" />
-              <div className="skeleton h-4 w-48" />
-              <div className="skeleton h-4 w-32" />
+              <div className="h-4 w-40 animate-pulse bg-white/10" />
+              <div className="h-4 w-48 animate-pulse bg-white/10" />
+              <div className="h-4 w-32 animate-pulse bg-white/10" />
             </div>
           ) : settings ? (
-            <ul className="mt-5 space-y-2.5 text-sm font-light text-ink-soft">
+            <ul className="mt-5 space-y-2.5 text-sm font-light text-cream/75">
               {settings.phone && (
                 <li>
-                  <a href={`tel:${settings.phone.replace(/\s/g, '')}`} className="hover:text-ink hover:underline">
+                  <a href={`tel:${settings.phone.replace(/\s/g, '')}`} className="hover:text-cream hover:underline">
                     {settings.phone}
                   </a>
                 </li>
               )}
               {settings.email && (
                 <li>
-                  <a href={`mailto:${settings.email}`} className="hover:text-ink hover:underline">
+                  <a href={`mailto:${settings.email}`} className="hover:text-cream hover:underline">
                     {settings.email}
                   </a>
                 </li>
@@ -53,13 +53,13 @@ export function StoreFooter() {
               {settings.address && <li className="leading-relaxed">{settings.address}</li>}
             </ul>
           ) : (
-            <p className="mt-5 text-sm text-muted">İletişim bilgileri şu an yüklenemedi.</p>
+            <p className="mt-5 text-sm text-cream/60">İletişim bilgileri şu an yüklenemedi.</p>
           )}
         </div>
 
         <div>
           <h2 className={heading}>Sipariş</h2>
-          <p className="mt-5 text-sm leading-relaxed font-light text-ink-soft">
+          <p className="mt-5 text-sm leading-relaxed font-light text-cream/75">
             Siparişlerinizi WhatsApp üzerinden alıyoruz. Beden ve stok için bize yazmanız yeterli.
           </p>
           {waLink && (
@@ -71,9 +71,9 @@ export function StoreFooter() {
         </div>
       </div>
 
-      <div className="border-t border-line">
-        <p className="container-page py-5 text-[11px] tracking-[0.12em] text-muted uppercase">
-          © {new Date().getFullYear()} <span lang="fr">L&rsquo;Atelier Enfant</span>
+      <div className="border-t border-cream/10">
+        <p className="container-page py-5 text-[11px] tracking-[0.12em] text-cream/50 uppercase">
+          © {new Date().getFullYear()} Veliaht Kids
         </p>
       </div>
     </footer>

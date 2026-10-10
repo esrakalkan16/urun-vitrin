@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { CrownMark, Logo } from '@/app/components/Logo';
 
 export default function AdminGirisPage() {
   const router = useRouter();
@@ -35,43 +36,36 @@ export default function AdminGirisPage() {
   }
 
   return (
-    <div className="grid min-h-screen bg-white md:grid-cols-2">
+    <div className="grid min-h-screen bg-canvas md:grid-cols-2">
       {/* Sol: marka paneli */}
-      <aside className="relative hidden flex-col justify-between overflow-hidden bg-sky p-12 md:flex lg:p-16">
-        <Link href="/" className="inline-block">
-          <span lang="fr" className="font-display block text-2xl font-medium tracking-[0.2em] uppercase">
-            L&rsquo;Atelier
-          </span>
-          <span className="block text-[10px] tracking-[0.5em] text-ink-soft uppercase">Enfant</span>
+      <aside className="relative hidden flex-col justify-between overflow-hidden bg-navy p-12 text-cream md:flex lg:p-16">
+        <Link href="/" className="relative self-start" aria-label="Veliaht Kids — Vitrin">
+          <Logo tone="dark" tagline="Küçük beyefendiler için" />
         </Link>
 
-        <div className="animate-fade-up">
-          <p className="eyebrow text-ink-soft">Mağaza yönetimi</p>
-          <h1 className="font-display mt-4 text-5xl leading-[1.05] font-light lg:text-6xl">
+        <div className="animate-fade-up relative">
+          <p className="eyebrow text-camel">Mağaza yönetimi</p>
+          <h1 className="font-display mt-4 text-5xl leading-[1.08] lg:text-6xl">
             Vitrininiz,
             <br />
-            <span className="font-medium italic">tek yerden.</span>
+            <span className="text-camel italic">tek yerden.</span>
           </h1>
-          <p className="mt-6 max-w-sm text-[15px] leading-relaxed text-ink-soft">
+          <p className="mt-6 max-w-sm text-[15px] leading-relaxed text-cream/75">
             Ürün ekleyin, stokları güncelleyin, satışları takip edin. Müşterileriniz değişiklikleri anında görür.
           </p>
         </div>
 
-        <p className="text-[11px] tracking-[0.14em] text-ink-soft uppercase">© {new Date().getFullYear()} <span lang="fr">L&rsquo;Atelier Enfant</span></p>
+        <p className="relative text-[11px] tracking-[0.14em] text-cream/50 uppercase">© {new Date().getFullYear()} Veliaht Kids</p>
 
-        {/* yumuşak süs daireleri */}
-        <span aria-hidden="true" className="absolute -right-24 -bottom-24 h-80 w-80 rounded-full bg-white/40" />
-        <span aria-hidden="true" className="absolute top-24 -right-10 h-32 w-32 rounded-full bg-mint/70" />
+        {/* arka planda büyük taç motifi */}
+        <CrownMark className="pointer-events-none absolute -right-20 -bottom-16 h-96 w-auto text-cream opacity-[0.05]" />
       </aside>
 
       {/* Sağ: giriş formu */}
       <div className="flex flex-col items-center justify-center px-5 py-12">
         <div className="w-full max-w-sm">
           <div className="mb-10 text-center md:hidden">
-            <span lang="fr" className="font-display block text-2xl font-medium tracking-[0.2em] uppercase">
-              L&rsquo;Atelier
-            </span>
-            <span className="block text-[10px] tracking-[0.5em] text-muted uppercase">Enfant</span>
+            <Logo />
           </div>
 
           <p className="eyebrow">Hoş geldiniz</p>
