@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { LogoutButton } from './LogoutButton';
 import { IconArrowUpRight } from '@/app/components/icons';
+import { CrownMark } from '@/app/components/Logo';
 
 const navItems = [
   { href: '/admin', label: 'Genel bakış', exact: true },
@@ -21,7 +22,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     exact ? pathname === href : pathname === href || pathname.startsWith(href + '/');
 
   const tab = (active: boolean) =>
-    `relative shrink-0 py-4 text-[11px] font-medium tracking-[0.16em] uppercase transition-colors after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-ink after:transition-transform after:duration-300 ${
+    `relative shrink-0 py-4 text-[11px] font-medium tracking-[0.16em] uppercase transition-colors after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:bg-camel after:transition-transform after:duration-300 ${
       active ? 'text-ink after:scale-x-100' : 'text-muted after:scale-x-0 hover:text-ink'
     }`;
 
@@ -29,10 +30,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <div className="flex min-h-screen flex-col bg-subtle">
       <header className="sticky top-0 z-40 border-b border-line bg-white">
         <div className="container-page flex h-16 items-center justify-between gap-4">
-          <Link href="/admin" className="flex items-baseline gap-3">
-            <span lang="fr" className="font-display text-lg font-medium tracking-[0.2em] uppercase">
-              L&rsquo;Atelier
-            </span>
+          <Link href="/admin" className="flex items-center gap-3">
+            <CrownMark className="h-6 w-auto text-navy" />
+            <span className="font-serif text-lg font-semibold tracking-[0.06em] text-navy">VELİAHT</span>
             <span className="hidden text-[10px] tracking-[0.3em] text-muted uppercase sm:inline">Yönetim</span>
           </Link>
 

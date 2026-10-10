@@ -68,10 +68,10 @@ export default function AdminGenelBakisPage() {
   const maxQty = Math.max(1, ...byCategory.map((c) => c.qty));
 
   const tiles = [
-    { label: 'Vitrindeki ürün', value: String(active.length), note: `${data.categories.length} yaş grubunda`, tone: 'bg-peach' },
-    { label: 'Toplam stok', value: `${stock}`, unit: 'adet', note: `${emptySizes.length} beden tükendi`, tone: 'bg-mint' },
-    { label: 'Stok değeri', value: formatPrice(value), note: 'Vitrindeki ürünlerin toplamı', tone: 'bg-sky' },
-    { label: 'Satılan ürün', value: String(sold.length), note: 'Satılanlar arşivinde', tone: 'bg-butter' },
+    { label: 'Vitrindeki ürün', value: String(active.length), note: `${data.categories.length} yaş grubunda`, tone: 'bg-mist' },
+    { label: 'Toplam stok', value: `${stock}`, unit: 'adet', note: `${emptySizes.length} beden tükendi`, tone: 'bg-sage' },
+    { label: 'Stok değeri', value: formatPrice(value), note: 'Vitrindeki ürünlerin toplamı', tone: 'bg-sand' },
+    { label: 'Satılan ürün', value: String(sold.length), note: 'Satılanlar arşivinde', tone: 'bg-camel-soft' },
   ];
 
   const attention = [

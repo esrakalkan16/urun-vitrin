@@ -5,13 +5,14 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { buildWhatsAppLink } from '@/lib/whatsapp';
 import { IconChat } from './icons';
+import { Logo } from './Logo';
 import { useStoreSettings } from './useStoreSettings';
 
 const announcements = [
+  'Küçük beyefendiler için',
   'WhatsApp ile kolay sipariş',
-  '%100 doğal kumaşlar',
+  'Doğal kumaşlar, zamansız kesimler',
   'Stok bilgisi her üründe',
-  '6 aydan 10 yaşa özenli seçimler',
 ];
 
 export function StoreHeader() {
@@ -36,14 +37,14 @@ export function StoreHeader() {
   return (
     <>
       {/* Kayan duyuru bandı */}
-      <div className="group overflow-hidden bg-caramel text-white" aria-label="Duyurular">
+      <div className="group overflow-hidden bg-navy text-cream" aria-label="Duyurular">
         <div className="animate-marquee flex w-max group-hover:[animation-play-state:paused]">
           {[0, 1].map((copy) => (
             <ul key={copy} aria-hidden={copy === 1} className="flex shrink-0 items-center">
               {[...announcements, ...announcements].map((t, i) => (
                 <li key={i} className="flex items-center py-2 text-[11px] tracking-[0.14em] whitespace-nowrap uppercase">
                   <span className="px-6">{t}</span>
-                  <span aria-hidden="true" className="h-1 w-1 rounded-full bg-white/70" />
+                  <span aria-hidden="true" className="h-1 w-1 rounded-full bg-camel" />
                 </li>
               ))}
             </ul>
@@ -52,11 +53,11 @@ export function StoreHeader() {
       </div>
 
       <header
-        className={`sticky top-0 z-50 border-b bg-white/95 backdrop-blur transition-[border-color,box-shadow] duration-300 ${
-          scrolled ? 'border-line shadow-[0_6px_24px_-18px_rgba(0,0,0,0.25)]' : 'border-transparent'
+        className={`sticky top-0 z-50 border-b bg-canvas/95 backdrop-blur transition-[border-color,box-shadow] duration-300 ${
+          scrolled ? 'border-line shadow-[0_6px_24px_-18px_rgba(31,42,68,0.35)]' : 'border-transparent'
         }`}
       >
-        <div className="container-page grid h-16 grid-cols-[1fr_auto_1fr] items-center md:h-20">
+        <div className="container-page grid h-18 grid-cols-[1fr_auto_1fr] items-center md:h-24">
           <nav aria-label="Ana gezinti" className="hidden items-center gap-7 md:flex">
             <Link href={`${base}#koleksiyon`} className={navLink}>
               Koleksiyon
@@ -70,11 +71,13 @@ export function StoreHeader() {
           </nav>
           <span className="md:hidden" />
 
-          <Link href="/" className="text-center" aria-label="L'Atelier Enfant — Ana sayfa">
-            <span lang="fr" className="font-display block text-xl font-medium tracking-[0.2em] uppercase md:text-2xl">
-              L&rsquo;Atelier
+          <Link href="/" className="flex items-center" aria-label="Veliaht Kids — Ana sayfa">
+            <span className="md:hidden">
+              <Logo size="sm" tagline="Kids" />
             </span>
-            <span className="block text-[9px] tracking-[0.5em] text-muted uppercase md:text-[10px]">Enfant</span>
+            <span className="hidden md:block">
+              <Logo />
+            </span>
           </Link>
 
           <div className="flex items-center justify-end gap-6">

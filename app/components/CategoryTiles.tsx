@@ -6,7 +6,7 @@ import type { Category } from '@/lib/types';
 import { loadCategories } from './storeData';
 import { Reveal } from './Reveal';
 
-const tones = ['bg-peach', 'bg-mint', 'bg-sky', 'bg-butter', 'bg-lilac'];
+const tones = ['bg-mist', 'bg-sand', 'bg-sage', 'bg-camel-soft', 'bg-cream'];
 
 export function CategoryTiles() {
   const [categories, setCategories] = useState<Category[] | null>(null);

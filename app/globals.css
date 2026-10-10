@@ -1,31 +1,39 @@
 @import "tailwindcss";
 
 /*
-  L'Atelier Enfant — butik bebek & çocuk mağazası tasarımı
-  Beyaz zemin, keskin köşeler, ince tipografi, pastel mavi / mint / krem bölümler.
-  Animasyon ölçülü: kayan duyuru bandı, yumuşak geçişler, hover'da fotoğraf değişimi.
+  Veliaht — erkek çocuk giyim, "küçük beyefendiler için"
+  Logo renkleri: lacivert, deve tüyü, krem, kahve.
+  Ek renkler: kum, sis mavisi, adaçayı, kiremit ve orman yeşili — logoyla aynı sıcak, klasik tonda.
 */
 @theme inline {
-  --color-canvas: #ffffff;
+  /* Logo paleti */
+  --color-navy: #1f2a44; /* lacivert */
+  --color-navy-deep: #161e33;
+  --color-camel: #c8a46b; /* deve tüyü */
+  --color-camel-soft: #ead9b8;
+  --color-cream: #f6f1e7; /* krem */
+  --color-kahve: #6b5a3e; /* kahve */
+
+  /* Ek renkler */
+  --color-sand: #ede4d3; /* kum */
+  --color-mist: #dce3ec; /* sis mavisi */
+  --color-sage: #dde3d3; /* adaçayı */
+  --color-clay: #a5583c; /* kiremit: "son adet" gibi uyarılar */
+  --color-forest: #3e5a4c; /* orman yeşili */
+
+  --color-canvas: #fbf8f2;
   --color-surface: #ffffff;
-  --color-subtle: #f7f4f0;
-  --color-line: #ece7e1;
-  --color-line-strong: #d9d2ca;
+  --color-subtle: #f6f1e7;
+  --color-line: #e8e0d1;
+  --color-line-strong: #d4c8b3;
 
-  --color-ink: #1f1c1a;
-  --color-ink-soft: #4a4541;
-  --color-muted: #8b847e;
+  --color-ink: #1f2a44;
+  --color-ink-soft: #46506a;
+  --color-muted: #7f7a70;
 
-  --color-accent: #9c6b4e; /* karamel-kahve: vurgu metinleri */
-  --color-accent-soft: #f3e6dc;
-  --color-caramel: #d1a588; /* duyuru bandı */
-  --color-cocoa: #6b4a3a; /* buton hover */
-
-  --color-sky: #cfe8f3;
-  --color-mint: #d4edda;
-  --color-peach: #f5e3d6;
-  --color-butter: #f6eedc;
-  --color-lilac: #e9e3f1;
+  --color-accent: #6b5a3e;
+  --color-accent-soft: #efe5d3;
+  --color-cocoa: #6b5a3e; /* buton hover */
 
   --color-success: #2f7a4b;
   --color-success-soft: #e3f3e8;
@@ -36,7 +44,8 @@
   --color-whatsapp-hover: #1a8a4a;
 
   --font-sans: var(--font-funnel-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-funnel-display), var(--font-funnel-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-playfair), ui-serif, Georgia, serif;
+  --font-serif: var(--font-playfair), ui-serif, Georgia, serif;
 
   --animate-fade-up: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
   --animate-marquee: marquee 32s linear infinite;
@@ -77,7 +86,7 @@
     outline-offset: 2px;
   }
   ::selection {
-    background: var(--color-sky);
+    background: var(--color-camel-soft);
   }
   .font-display {
     letter-spacing: -0.01em;
@@ -114,6 +123,13 @@
   }
   .btn-primary:hover:not(:disabled) {
     @apply border-cocoa bg-cocoa;
+  }
+  /* Lacivert zeminde deve tüyü buton */
+  .btn-camel {
+    @apply border border-camel bg-camel text-navy;
+  }
+  .btn-camel:hover:not(:disabled) {
+    @apply border-cream bg-cream;
   }
   .btn-secondary {
     @apply border border-ink bg-white text-ink;
