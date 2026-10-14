@@ -184,14 +184,14 @@ export default function AdminGenelBakisPage() {
               return (
                 <li key={p.id}>
                   <Link href={`/admin/urunler/${p.id}`} className="group block">
-                    <div className="relative aspect-[4/5] overflow-hidden bg-subtle">
+                    <div className="relative aspect-square overflow-hidden bg-photo">
                       {cover && (
                         <Image
                           src={cover.url}
                           alt=""
                           fill
                           sizes="200px"
-                          className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                          className="object-contain"
                         />
                       )}
                     </div>

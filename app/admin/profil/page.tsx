@@ -6,16 +6,18 @@ import { PageHeader, Section, ToastViewport, useToasts } from '../components/ui'
 type Form = {
   adminEmail: string;
   newPassword: string;
+  currentPassword: string;
   phone: string;
   whatsapp: string;
   email: string;
   address: string;
 };
 
-const empty: Form = { adminEmail: '', newPassword: '', phone: '', whatsapp: '', email: '', address: '' };
+const empty: Form = { adminEmail: '', newPassword: '', currentPassword: '', phone: '', whatsapp: '', email: '', address: '' };
 
 export default function AdminAyarlarPage() {
   const [form, setForm] = useState<Form>(empty);
+  const [savedEmail, setSavedEmail] = useState('');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
@@ -24,19 +26,24 @@ export default function AdminAyarlarPage() {
   useEffect(() => {
     fetch('/api/admin/settings')
       .then((res) => (res.ok ? res.json() : Promise.reject()))
-      .then((d) =>
+      .then((d) => {
+        setSavedEmail(d.adminEmail ?? '');
         setForm({
           adminEmail: d.adminEmail ?? '',
           newPassword: '',
+          currentPassword: '',
           phone: d.phone ?? '',
           whatsapp: d.whatsapp ?? '',
           email: d.email ?? '',
           address: d.address ?? '',
-        }),
-      )
+        });
+      })
       .catch(() => setError('Ayarlar yüklenemedi. Sayfayı yenileyin.'))
       .finally(() => setLoading(false));
   }, []);
+
+  const loginChanged =
+    form.newPassword.trim() !== '' || form.adminEmail.trim().toLowerCase() !== savedEmail.trim().toLowerCase();
 
   const set = (key: keyof Form) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((f) => ({ ...f, [key]: e.target.value }));
@@ -44,8 +51,12 @@ export default function AdminAyarlarPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError('');
-    if (form.newPassword && form.newPassword.trim().length < 6) {
-      setError('Yeni şifre en az 6 karakter olmalı.');
+    if (form.newPassword && form.newPassword.trim().length < 8) {
+      setError('Yeni şifre en az 8 karakter olmalı.');
+      return;
+    }
+    if (loginChanged && !form.currentPassword) {
+      setError('Giriş bilgilerini değiştirmek için mevcut şifrenizi girin.');
       return;
     }
     setSaving(true);
@@ -56,6 +67,7 @@ export default function AdminAyarlarPage() {
         body: JSON.stringify({
           adminEmail: form.adminEmail.trim(),
           adminPassword: form.newPassword.trim(),
+          currentPassword: form.currentPassword.trim() || undefined,
           phone: form.phone.trim(),
           whatsapp: form.whatsapp.trim(),
           email: form.email.trim(),
@@ -63,7 +75,8 @@ export default function AdminAyarlarPage() {
         }),
       });
       if (res.ok) {
-        setForm((f) => ({ ...f, newPassword: '' }));
+        setSavedEmail(form.adminEmail.trim().toLowerCase());
+        setForm((f) => ({ ...f, adminEmail: f.adminEmail.trim().toLowerCase(), newPassword: '', currentPassword: '' }));
         push('Ayarlar kaydedildi.');
       } else {
         const data = await res.json().catch(() => ({}));
@@ -178,8 +191,25 @@ export default function AdminAyarlarPage() {
                   placeholder="Değiştirmeyecekseniz boş bırakın"
                   className="input"
                 />
-                <p className="hint">En az 6 karakter.</p>
+                <p className="hint">En az 8 karakter.</p>
               </div>
+              {loginChanged && (
+                <div className="sm:col-span-2">
+                  <label htmlFor="currentPassword" className="label">
+                    Mevcut şifre
+                  </label>
+                  <input
+                    id="currentPassword"
+                    type="password"
+                    value={form.currentPassword}
+                    onChange={set('currentPassword')}
+                    autoComplete="current-password"
+                    required
+                    className="input"
+                  />
+                  <p className="hint">Giriş e-postası ya da şifre değişeceği için güvenlik amacıyla mevcut şifreniz gerekiyor.</p>
+                </div>
+              )}
             </div>
           </Section>
 

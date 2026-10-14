@@ -21,6 +21,9 @@
   --color-clay: #a5583c; /* kiremit: "son adet" gibi uyarılar */
   --color-forest: #3e5a4c; /* orman yeşili */
 
+  /* Ürün fotoğraflarının stüdyo zemini; fotoğraf kırpılmadan sığınca kalan boşluk bununla dolar */
+  --color-photo: #eaebef;
+
   --color-canvas: #fbf8f2;
   --color-surface: #ffffff;
   --color-subtle: #f6f1e7;

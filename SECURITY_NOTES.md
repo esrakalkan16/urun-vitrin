@@ -65,8 +65,14 @@ npx prisma migrate dev --name add_quantity_check_constraint
    - Yerine `admin_session` çerezi geldi: süre ve şifre parmak izi içeren, `SESSION_SECRET` ile HMAC-SHA256 imzalı bir token (`lib/session.ts`).
    - `proxy.ts` /admin sayfalarında imzayı ve süreyi doğrular; API'lerde `checkAuth()` ayrıca veritabanındaki güncel şifreyle eşleşmeyi kontrol eder.
    - Şifre veya giriş e-postası değişince tüm eski oturumlar geçersiz olur; değişikliği yapan kullanıcıya yeni oturum verilir.
-   - Oturum süresi 7 gündür. Production'da `SESSION_SECRET` yoksa giriş tamamen kapalıdır.
-   - Giriş denemeleri IP başına 15 dakikada 10 hatayla sınırlandırılır.
+   - Oturum çerezi kalıcı değildir (`maxAge` yok): tarayıcı kapanınca silinir.
+   - 30 dakika hiç işlem yapılmazsa oturum düşer (`proxy.ts` her istekte bu süreyi uzatır); işlem yapılsa bile 8 saat sonra yeniden giriş gerekir.
+   - Çerez `SameSite=Strict`: başka sitelerden gelen isteklere hiç eklenmez (CSRF).
+   - Oturum düşünce panel kullanıcıyı otomatik olarak giriş ekranına gönderir; panel sayfaları `Cache-Control: no-store` ile döner.
+   - Production'da `SESSION_SECRET` yoksa giriş tamamen kapalıdır.
+   - Giriş için e-posta ve şifre birlikte zorunludur. Denemeler IP başına 15 dakikada 10 hatayla sınırlandırılır.
+   - Giriş e-postası ya da şifre değiştirilirken mevcut şifre istenir. Yeni şifre en az 8 karakterdir.
+   - Tahmin edilebilir varsayılan şifre (`123456E`) kaldırıldı: yönetici hesabı hiçbir API tarafından kendiliğinden oluşturulmaz, yalnızca `ADMIN_PASSWORD` ile `scripts/seed-admin.ts` kurar.
 
 3. **Hassas Veri Gizleme:**
    - `/api/admin/settings` endpoint'inde `GET` ve `PUT` yanıtlarında `adminPassword` alanı asla istemciye döndürülmez.
@@ -85,7 +91,15 @@ npx prisma migrate dev --name add_quantity_check_constraint
 7. **Vercel Blob Yetim Görsel Temizliği:**
    - Ürün güncellenirken silinen eski görseller Vercel Blob üzerinden `del()` fonksiyonu ile otomatik temizlenir.
 
-8. **WhatsApp Link Normalizasyonu:**
+8. **Yükleme ve Görsel Güvenliği:**
+   - Yüklenen dosyalar istemcinin gönderdiği adla değil, rastgele bir adla (`urunler/<uuid>.<uzantı>`) saklanır.
+   - Ürün görsel URL'leri yalnızca kendi Vercel Blob depomuzdan kabul edilir.
+
+9. **Güvenlik Başlıkları (`next.config.ts`):**
+   - `X-Frame-Options: DENY` ve `frame-ancestors 'none'` (clickjacking), `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, HSTS.
+   - `/admin` sayfaları `X-Robots-Tag: noindex` ile arama motorlarına kapalı.
+
+10. **WhatsApp Link Normalizasyonu:**
    - `lib/whatsapp.ts` içindeki `buildWhatsAppLink` ile telefon numaraları uluslararası formata dönüştürülür ve mesajlar güvenli bir şekilde encode edilir. Ayar boşsa WhatsApp butonu gizlenir.
 
 ---

@@ -66,9 +66,9 @@ export default function SatilanlarPage() {
             const cover = getCover(product.images);
             return (
               <li key={product.id} className="flex items-center gap-4 p-4">
-                <div className="relative h-14 w-14 shrink-0 overflow-hidden bg-subtle">
+                <div className="relative h-14 w-14 shrink-0 overflow-hidden bg-photo">
                   {cover && (
-                    <Image src={cover.url} alt="" fill sizes="56px" className="object-cover opacity-80 grayscale" />
+                    <Image src={cover.url} alt="" fill sizes="56px" className="object-contain opacity-80 grayscale" />
                   )}
                 </div>
                 <div className="min-w-0 flex-1">

@@ -14,28 +14,12 @@ export async function GET() {
     return NextResponse.json({ error: 'Yetkisiz erişim' }, { status: 401 });
   }
 
-  let settings = await prisma.siteSetting.findUnique({
+  // checkAuth kaydın varlığını zaten doğruladı; şifre hash'i hiç seçilmez.
+  const settings = await prisma.siteSetting.findUnique({
     where: { id: 'default' },
+    select: { adminEmail: true, phone: true, whatsapp: true, email: true, address: true },
   });
-
-  if (!settings) {
-    const defaultHash = await bcrypt.hash(process.env.ADMIN_PASSWORD || '123456E', 12);
-    settings = await prisma.siteSetting.create({
-      data: {
-        id: 'default',
-        adminEmail: 'admin@vitrin.com',
-        adminPassword: defaultHash,
-        phone: '0555 555 55 55',
-        whatsapp: '905555555555',
-        email: 'info@vitrin.com',
-        address: 'İstanbul, Türkiye',
-      },
-    });
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { adminPassword, ...safeSettings } = settings;
-  return NextResponse.json(safeSettings);
+  return NextResponse.json(settings);
 }
 
 // PUT /api/admin/settings -> Admin e-posta, şifre ve iletişim bilgilerini günceller
@@ -45,7 +29,7 @@ export async function PUT(request: Request) {
     return NextResponse.json({ error: 'Yetkisiz erişim' }, { status: 401 });
   }
 
-  const body = await request.json();
+  const body = await request.json().catch(() => null);
   const validation = settingsSchema.safeParse(body);
 
   if (!validation.success) {
@@ -53,31 +37,42 @@ export async function PUT(request: Request) {
     return NextResponse.json({ error: errorMessage }, { status: 400 });
   }
 
-  const { adminEmail, adminPassword, phone, whatsapp, email, address } = validation.data;
+  const { adminEmail, adminPassword, currentPassword, phone, whatsapp, email, address } = validation.data;
 
-  let hashedPassword: string | undefined = undefined;
-  if (adminPassword && adminPassword.trim() !== '') {
-    hashedPassword = await bcrypt.hash(adminPassword, 12);
+  const current = await prisma.siteSetting.findUnique({
+    where: { id: 'default' },
+    select: { adminEmail: true, adminPassword: true },
+  });
+  if (!current) {
+    return NextResponse.json({ error: 'Yetkisiz erişim' }, { status: 401 });
   }
 
-  const updated = await prisma.siteSetting.upsert({
+  // Giriş e-postası ya da şifre değişecekse mevcut şifre doğrulanır;
+  // böylece açık unutulmuş bir oturumu ele geçiren biri hesabı kendine alamaz.
+  const changesPassword = !!adminPassword;
+  const changesEmail =
+    adminEmail !== undefined && adminEmail.trim().toLowerCase() !== current.adminEmail.trim().toLowerCase();
+  if (changesPassword || changesEmail) {
+    const ok = !!currentPassword && (await bcrypt.compare(currentPassword, current.adminPassword));
+    if (!ok) {
+      return NextResponse.json(
+        { error: 'Giriş bilgilerini değiştirmek için mevcut şifrenizi doğru girin.' },
+        { status: 403 },
+      );
+    }
+  }
+
+  const hashedPassword = adminPassword ? await bcrypt.hash(adminPassword, 12) : undefined;
+
+  const updated = await prisma.siteSetting.update({
     where: { id: 'default' },
-    update: {
-      ...(adminEmail !== undefined && { adminEmail }),
+    data: {
+      ...(changesEmail && adminEmail && { adminEmail: adminEmail.trim().toLowerCase() }),
       ...(hashedPassword !== undefined && { adminPassword: hashedPassword }),
       ...(phone !== undefined && { phone }),
       ...(whatsapp !== undefined && { whatsapp }),
       ...(email !== undefined && { email }),
       ...(address !== undefined && { address }),
-    },
-    create: {
-      id: 'default',
-      adminEmail: adminEmail || 'admin@vitrin.com',
-      adminPassword: hashedPassword || (await bcrypt.hash(process.env.ADMIN_PASSWORD || '123456E', 12)),
-      phone: phone || '0555 555 55 55',
-      whatsapp: whatsapp || '905555555555',
-      email: email || 'info@vitrin.com',
-      address: address || 'İstanbul, Türkiye',
     },
   });
 

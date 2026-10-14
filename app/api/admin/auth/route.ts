@@ -54,7 +54,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Sunucu yapılandırma hatası: yönetici hesabı tanımlı değil.' }, { status: 500 });
   }
 
-  const emailOk = !email || email === settings.adminEmail.trim().toLowerCase();
+  const emailOk = email !== '' && email === settings.adminEmail.trim().toLowerCase();
   // E-posta yanlış olsa da bcrypt çalıştırılır; yanıt süresinden bilgi sızmasın
   const passwordOk = await bcrypt.compare(password, settings.adminPassword);
 

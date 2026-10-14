@@ -21,7 +21,7 @@ export default function AdminGirisPage() {
       const res = await fetch('/api/admin/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim() || undefined, password: password.trim() }),
+        body: JSON.stringify({ email: email.trim(), password: password.trim() }),
       });
       if (res.ok) {
         router.push('/admin');

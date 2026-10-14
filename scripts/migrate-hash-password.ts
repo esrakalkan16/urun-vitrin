@@ -21,7 +21,11 @@ async function main() {
     return;
   }
 
-  const hashedPassword = await bcrypt.hash(currentPassword || '123456E', 12);
+  if (!currentPassword) {
+    console.log('Kayıtlı şifre boş; önce scripts/seed-admin.ts ile şifre belirleyin.');
+    return;
+  }
+  const hashedPassword = await bcrypt.hash(currentPassword, 12);
 
   await prisma.siteSetting.update({
     where: { id: 'default' },

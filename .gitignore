@@ -49,3 +49,4 @@ CLAUDE.md
 # yerel yedekler / geçici klasörler
 _eski-tasarim-yedek.tar.gz
 _tmp_/
+normalize-images-*.json
