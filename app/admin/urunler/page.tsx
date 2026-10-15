@@ -143,8 +143,8 @@ export default function AdminUrunlerPage() {
                 return (
                   <li key={product.id} className="flex flex-col gap-4 p-4 md:flex-row md:items-center md:gap-6">
                     <Link href={`/admin/urunler/${product.id}`} className="group flex min-w-0 items-center gap-3 md:w-72 md:shrink-0">
-                      <div className="relative h-14 w-14 shrink-0 overflow-hidden bg-subtle">
-                        {cover && <Image src={cover.url} alt="" fill sizes="56px" className="object-cover" />}
+                      <div className="relative h-14 w-14 shrink-0 overflow-hidden bg-photo">
+                        {cover && <Image src={cover.url} alt="" fill sizes="56px" className="object-contain" />}
                       </div>
                       <div className="min-w-0">
                         <p className="truncate text-sm font-medium text-ink group-hover:underline">{product.title}</p>

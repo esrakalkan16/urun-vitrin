@@ -58,7 +58,7 @@ export function Hero() {
 
         {/* Ürün fotoğrafı slaytı */}
         <div className="animate-fade-up order-1 [animation-delay:150ms] md:order-2">
-          <div className="relative mx-auto aspect-[4/5] w-full max-w-[300px] overflow-hidden bg-white/10 outline outline-1 outline-offset-8 outline-camel/40 md:max-w-md">
+          <div className="relative mx-auto aspect-square w-full max-w-[320px] overflow-hidden bg-photo outline outline-1 outline-offset-8 outline-camel/40 md:max-w-md">
             {slides.map((p, i) => {
               const cover = getCover(p.images)!;
               return (
@@ -69,8 +69,8 @@ export function Hero() {
                   fill
                   priority={i === 0}
                   sizes="(max-width: 768px) 90vw, 440px"
-                  className={`object-cover transition-[opacity,transform] duration-[1400ms] ease-out ${
-                    i === index ? 'scale-100 opacity-100' : 'scale-[1.04] opacity-0'
+                  className={`object-contain transition-opacity duration-[1400ms] ease-out ${
+                    i === index ? 'opacity-100' : 'opacity-0'
                   }`}
                 />
               );

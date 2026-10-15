@@ -1,35 +1,17 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import bcrypt from 'bcryptjs';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 // GET /api/settings -> Müşteri tarafına açık iletişim ve mağaza bilgileri
 export async function GET() {
-  let settings = await prisma.siteSetting.findUnique({
+  // Yalnızca genel iletişim alanları okunur; yönetici bilgileri bu route'tan hiç çekilmez.
+  // Kayıt yoksa burada oluşturulmaz: yönetici hesabı yalnızca scripts/seed-admin.ts ile kurulur.
+  const settings = await prisma.siteSetting.findUnique({
     where: { id: 'default' },
+    select: { phone: true, whatsapp: true, email: true, address: true },
   });
 
-  if (!settings) {
-    settings = await prisma.siteSetting.create({
-      data: {
-        id: 'default',
-        adminEmail: 'admin@vitrin.com',
-        adminPassword: await bcrypt.hash(process.env.ADMIN_PASSWORD || '123456E', 12),
-        phone: '0555 555 55 55',
-        whatsapp: '905555555555',
-        email: 'info@vitrin.com',
-        address: 'İstanbul, Türkiye',
-      },
-    });
-  }
-
-  // Hassas verileri hariç tutarak sadece genel iletişim verilerini döndür
-  return NextResponse.json({
-    phone: settings.phone,
-    whatsapp: settings.whatsapp,
-    email: settings.email,
-    address: settings.address,
-  });
+  return NextResponse.json(settings ?? { phone: '', whatsapp: '', email: '', address: '' });
 }

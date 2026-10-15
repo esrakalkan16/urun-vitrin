@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { LogoutButton } from './LogoutButton';
 import { IconArrowUpRight } from '@/app/components/icons';
 import { CrownMark } from '@/app/components/Logo';
@@ -16,7 +17,28 @@ const navItems = [
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  if (pathname === '/admin/giris') return <>{children}</>;
+  const router = useRouter();
+  const isLogin = pathname === '/admin/giris';
+
+  // Oturum (hareketsizlik ya da süre dolduğu için) düşerse API'ler 401 döner:
+  // hata göstermek yerine giriş ekranına gönder.
+  useEffect(() => {
+    if (isLogin) return;
+    const original = window.fetch;
+    window.fetch = async (...args) => {
+      const res = await original(...args);
+      const url = typeof args[0] === 'string' ? args[0] : args[0] instanceof URL ? args[0].href : args[0].url;
+      if (res.status === 401 && new URL(url, location.href).pathname.startsWith('/api/')) {
+        router.replace('/admin/giris');
+      }
+      return res;
+    };
+    return () => {
+      window.fetch = original;
+    };
+  }, [isLogin, router]);
+
+  if (isLogin) return <>{children}</>;
 
   const isActive = (href: string, exact?: boolean) =>
     exact ? pathname === href : pathname === href || pathname.startsWith(href + '/');

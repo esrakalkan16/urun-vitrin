@@ -4,7 +4,11 @@ import bcrypt from 'bcryptjs';
 const prisma = new PrismaClient();
 
 async function main() {
-  const plainPassword = process.env.ADMIN_PASSWORD || '123456E';
+  // Tahmin edilebilir varsayılan şifre yok: ADMIN_PASSWORD tanımlı olmalı.
+  const plainPassword = process.env.ADMIN_PASSWORD;
+  if (!plainPassword || plainPassword.length < 8) {
+    throw new Error('ADMIN_PASSWORD tanımlı değil ya da 8 karakterden kısa.');
+  }
   const hashedPassword = await bcrypt.hash(plainPassword, 12);
   const adminEmail = process.env.ADMIN_EMAIL || 'admin@vitrin.com';
 

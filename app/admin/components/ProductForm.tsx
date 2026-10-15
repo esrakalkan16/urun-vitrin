@@ -193,11 +193,11 @@ export function ProductForm({
                 onClick={() => setCover(i)}
                 aria-label={img.isCover ? 'Kapak fotoğrafı' : `Fotoğraf ${i + 1}: kapak yap`}
                 aria-pressed={img.isCover}
-                className={`relative block aspect-square w-full overflow-hidden bg-subtle ${
+                className={`relative block aspect-square w-full overflow-hidden bg-photo ${
                   img.isCover ? 'ring-2 ring-ink ring-offset-2 ring-offset-canvas' : ''
                 }`}
               >
-                <Image src={img.url} alt="" fill sizes="160px" className="object-cover" />
+                <Image src={img.url} alt="" fill sizes="160px" className="object-contain" />
                 <span
                   className={`absolute inset-x-1.5 bottom-1.5 py-1 text-center text-[11px] font-medium ${
                     img.isCover ? 'is-selected' : 'bg-white/90 text-ink-soft backdrop-blur'

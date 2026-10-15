@@ -13,7 +13,7 @@ export function ProductCard({ product }: { product: Product; index?: number }) {
 
   return (
     <Link href={`/urun/${product.id}`} className="group block focus-visible:outline-offset-4">
-      <div className="relative aspect-[4/5] overflow-hidden bg-subtle">
+      <div className="relative aspect-square overflow-hidden bg-photo">
         {cover ? (
           <>
             <Image
@@ -21,7 +21,7 @@ export function ProductCard({ product }: { product: Product; index?: number }) {
               alt={product.title}
               fill
               sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-              className={`object-cover transition-[opacity,transform] duration-700 ease-out group-hover:scale-[1.03] ${
+              className={`object-contain transition-opacity duration-700 ease-out ${
                 second ? 'group-hover:opacity-0' : ''
               }`}
             />
@@ -31,7 +31,7 @@ export function ProductCard({ product }: { product: Product; index?: number }) {
                 alt=""
                 fill
                 sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                className="scale-[1.03] object-cover opacity-0 transition-[opacity,transform] duration-700 ease-out group-hover:scale-100 group-hover:opacity-100"
+                className="object-contain opacity-0 transition-opacity duration-700 ease-out group-hover:opacity-100"
               />
             )}
           </>
@@ -65,7 +65,7 @@ export function ProductCard({ product }: { product: Product; index?: number }) {
 export function ProductCardSkeleton() {
   return (
     <div aria-hidden="true">
-      <div className="skeleton aspect-[4/5]" />
+      <div className="skeleton aspect-square" />
       <div className="skeleton mx-auto mt-4 h-3.5 w-3/4" />
       <div className="skeleton mx-auto mt-2 h-3.5 w-1/4" />
     </div>

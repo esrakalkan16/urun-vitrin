@@ -103,7 +103,7 @@ export default function UrunDetayPage() {
                 <div className="container-page mt-6 grid gap-8 lg:grid-cols-2 lg:gap-16">
                   {/* Galeri */}
                   <div>
-                    <div className="animate-fade-up relative aspect-[4/5] overflow-hidden bg-subtle">
+                    <div className="animate-fade-up relative aspect-square overflow-hidden bg-photo">
                       {image ? (
                         <Image
                           src={image.url}
@@ -111,7 +111,7 @@ export default function UrunDetayPage() {
                           fill
                           priority
                           sizes="(max-width: 1024px) 100vw, 50vw"
-                          className={`object-cover ${soldOut ? 'opacity-70 grayscale' : ''}`}
+                          className={`object-contain ${soldOut ? 'opacity-70 grayscale' : ''}`}
                         />
                       ) : (
                         <div className="absolute inset-0 flex items-center justify-center text-line-strong">
@@ -131,11 +131,11 @@ export default function UrunDetayPage() {
                               onClick={() => setImageId(img.id)}
                               aria-label={`Görsel ${i + 1}`}
                               aria-pressed={active}
-                              className={`relative h-20 w-16 shrink-0 overflow-hidden transition ${
+                              className={`relative h-16 w-16 shrink-0 overflow-hidden bg-photo transition ${
                                 active ? 'ring-2 ring-ink ring-offset-2 ring-offset-canvas' : 'opacity-70 hover:opacity-100'
                               }`}
                             >
-                              <Image src={img.url} alt="" fill sizes="64px" className="object-cover" />
+                              <Image src={img.url} alt="" fill sizes="64px" className="object-contain" />
                             </button>
                           );
                         })}
@@ -289,7 +289,7 @@ export default function UrunDetayPage() {
 function DetailSkeleton() {
   return (
     <div className="container-page grid gap-8 pt-10 lg:grid-cols-2 lg:gap-16" aria-hidden="true">
-      <div className="skeleton aspect-[4/5]" />
+      <div className="skeleton aspect-square" />
       <div className="space-y-4">
         <div className="skeleton h-9 w-3/4" />
         <div className="skeleton h-7 w-1/4" />

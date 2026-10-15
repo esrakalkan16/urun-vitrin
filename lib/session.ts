@@ -1,13 +1,19 @@
 // İmzalı yönetici oturumu. Yalnızca Web Crypto kullanır; hem proxy'de hem API route'larında çalışır.
 //
 // Çerez biçimi: base64url(JSON payload) + "." + base64url(HMAC-SHA256 imzası)
-// payload = { exp: son geçerlilik (ms), fp: şifre parmak izi }
+// payload = { exp: kesin bitiş (ms), idle: hareketsizlik bitişi (ms), fp: şifre parmak izi }
 // fp, şifre (veya giriş e-postası) değiştiğinde eski oturumların geçersiz olmasını sağlar.
+//
+// Oturum üç yoldan biter:
+// 1) Tarayıcı kapanınca: çerez maxAge'siz (oturum çerezi) verilir.
+// 2) IDLE_TIMEOUT boyunca hiç işlem yapılmazsa (proxy her istekte idle'ı uzatır).
+// 3) Girişten SESSION_MAX_AGE sonra, işlem yapılsa bile.
 
 export const SESSION_COOKIE = 'admin_session';
-export const SESSION_MAX_AGE_SEC = 60 * 60 * 24 * 7; // 7 gün
+const SESSION_MAX_AGE_MS = 8 * 60 * 60 * 1000; // 8 saat
+const IDLE_TIMEOUT_MS = 30 * 60 * 1000; // 30 dakika
 
-type SessionPayload = { exp: number; fp: string };
+export type SessionPayload = { exp: number; idle: number; fp: string };
 
 const encoder = new TextEncoder();
 const DEV_FALLBACK_SECRET = 'dev-only-insecure-session-secret-change-me';
@@ -49,10 +55,13 @@ export async function credentialFingerprint(passwordHash: string, adminEmail: st
   return toBase64Url(new Uint8Array(digest)).slice(0, 22);
 }
 
-export async function createSessionToken(fp: string): Promise<string | null> {
+/** Yeni oturum açar; `exp` verilirse (oturum yenileme) kesin bitiş korunur, yalnızca idle uzar. */
+export async function createSessionToken(fp: string, exp?: number): Promise<string | null> {
   const secret = getSecret();
   if (!secret) return null;
-  const payload: SessionPayload = { exp: Date.now() + SESSION_MAX_AGE_SEC * 1000, fp };
+  const now = Date.now();
+  const end = exp ?? now + SESSION_MAX_AGE_MS;
+  const payload: SessionPayload = { exp: end, idle: Math.min(now + IDLE_TIMEOUT_MS, end), fp };
   const body = toBase64Url(encoder.encode(JSON.stringify(payload)));
   const sig = await crypto.subtle.sign('HMAC', await getKey(secret), encoder.encode(body));
   return `${body}.${toBase64Url(new Uint8Array(sig))}`;
@@ -72,18 +81,20 @@ export async function verifySessionToken(token: string | undefined | null): Prom
     const ok = await crypto.subtle.verify('HMAC', await getKey(secret), fromBase64Url(sig), encoder.encode(body));
     if (!ok) return null;
     const payload = JSON.parse(new TextDecoder().decode(fromBase64Url(body))) as SessionPayload;
-    if (typeof payload.exp !== 'number' || typeof payload.fp !== 'string') return null;
-    if (payload.exp < Date.now()) return null;
+    if (typeof payload.exp !== 'number' || typeof payload.idle !== 'number' || typeof payload.fp !== 'string') return null;
+    const now = Date.now();
+    if (payload.exp < now || payload.idle < now) return null;
     return payload;
   } catch {
     return null;
   }
 }
 
+// maxAge/expires yok: tarayıcı kapanınca çerez silinir.
+// sameSite strict: başka sitelerden gelen isteklere çerez hiç eklenmez (CSRF koruması).
 export const sessionCookieOptions = {
   httpOnly: true,
   secure: process.env.NODE_ENV === 'production',
-  sameSite: 'lax' as const,
+  sameSite: 'strict' as const,
   path: '/',
-  maxAge: SESSION_MAX_AGE_SEC,
 };

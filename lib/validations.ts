@@ -17,8 +17,21 @@ export const productVariantSchema = z.object({
     .min(0, 'Stok adedi negatif olamaz'),
 });
 
+// Görseller yalnızca kendi Vercel Blob depomuzdan gelebilir (next.config.ts remotePatterns ile aynı)
+const blobImageUrl = z
+  .string()
+  .url('Geçerli bir görsel URL adresi girilmelidir')
+  .refine((u) => {
+    try {
+      const { protocol, hostname } = new URL(u);
+      return protocol === 'https:' && hostname.endsWith('.public.blob.vercel-storage.com');
+    } catch {
+      return false;
+    }
+  }, 'Görseller yalnızca panelden yüklenebilir');
+
 export const productImageSchema = z.object({
-  url: z.string().url('Geçerli bir görsel URL adresi girilmelidir'),
+  url: blobImageUrl,
   isCover: z.boolean().optional(),
 });
 
@@ -46,7 +59,8 @@ export const productUpdateSchema = productSchema.partial();
 
 export const settingsSchema = z.object({
   adminEmail: z.string().email('Geçersiz e-posta adresi').optional(),
-  adminPassword: z.string().min(6, 'Şifre en az 6 karakter olmalıdır').optional().or(z.literal('')),
+  adminPassword: z.string().min(8, 'Şifre en az 8 karakter olmalıdır').max(128).optional().or(z.literal('')),
+  currentPassword: z.string().max(128).optional(),
   phone: z.string().optional(),
   whatsapp: z.string().optional(),
   email: z.string().email('Geçersiz e-posta adresi').optional().or(z.literal('')),
